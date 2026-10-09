@@ -1,0 +1,38 @@
+{
+  "name": "aarohiweb",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A premium holistic wellness website for Aarohi",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manjha28/aarohiWeb.git"
+  },
+  "keywords": [
+    "wellness",
+    "react",
+    "vite",
+    "health"
+  ],
+  "author": "Aarohi",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/manjha28/aarohiWeb/issues"
+  },
+  "homepage": "https://manjha28.github.io/aarohiWeb/",
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.4"
+  }
+}
