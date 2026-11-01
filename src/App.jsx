@@ -3,7 +3,12 @@ import { HashRouter, Link, NavLink, Route, Routes, useParams, useSearchParams } 
 
 const CONTACT_PHONE = '+916376106457';
 const CONTACT_PHONE_DISPLAY = '+91 63761 06457';
-const CONTACT_EMAIL = 'thecosmiclight666@gmail.com';
+const CONTACT_EMAIL = 'arghyalife15@gmail.com';
+const WHATSAPP_URL = `https://wa.me/${CONTACT_PHONE.slice(1)}`;
+
+function whatsappEnquiryUrl(message) {
+  return `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
+}
 
 const navItems = [
   { label: 'Home', to: '/' },
@@ -195,24 +200,6 @@ const articleList = [
   },
 ];
 
-const shopItems = [
-  {
-    name: 'Wellness Journal',
-    price: '₹899',
-    blurb: 'A guided place to reflect on food, energy, sleep and self-care rituals.',
-  },
-  {
-    name: 'Morning Reset Toolkit',
-    price: '₹1,499',
-    blurb: 'A simple bundle of practice prompts, tracking notes and gentle daily cues.',
-  },
-  {
-    name: 'Breathwork Notes',
-    price: '₹699',
-    blurb: 'Short, practical tools to support quiet, grounding routines at home.',
-  },
-];
-
 const homeWeCreate = {
   title: 'The Home We Create',
   chapter: 'Chapter 01: The Child We Once Were',
@@ -316,7 +303,7 @@ function AppShell({ children }) {
 
       <a
         className="whatsapp-fab"
-        href={`https://wa.me/${CONTACT_PHONE.slice(1)}?text=${encodeURIComponent('Hi Aarohi, I would like to enquire about a consultation.')}`}
+        href={whatsappEnquiryUrl('Hi Aarohi, I would like to enquire about a consultation.')}
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
@@ -351,47 +338,45 @@ function LeadForm() {
     setEmailDraft('');
     setError('');
     setSubmitted(false);
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+    const emailBody = [
+      `Name: ${payload.name}`,
+      `Email: ${payload.email}`,
+      `Phone: ${payload.phone}`,
+      `Service: ${payload.service || 'Not specified'}`,
+      `Consent to store and respond: ${payload.consent ? 'Yes' : 'No'}`,
+      '',
+      'Message:',
+      payload.message,
+    ].join('\n');
+    const emailFallbackUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('ARGHYA website enquiry')}&body=${encodeURIComponent(emailBody)}`;
 
     if (!googleSheetsUrl) {
-      const payload = Object.fromEntries(new FormData(form).entries());
-      const body = [
-        `Name: ${payload.name}`,
-        `Email: ${payload.email}`,
-        `Phone: ${payload.phone}`,
-        `Service: ${payload.service || 'Not specified'}`,
-        '',
-        'Message:',
-        payload.message,
-      ].join('\n');
-      setEmailDraft(`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('ARGHYA website enquiry')}&body=${encodeURIComponent(body)}`);
+      setEmailDraft(emailFallbackUrl);
       setError('');
       setSubmitted(false);
       return;
     }
 
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
-
     try {
       const response = await fetch(googleSheetsUrl, {
         method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        },
-        body: new URLSearchParams(payload).toString(),
+        mode: 'no-cors',
+        body: new URLSearchParams(formData),
       });
-      if (!response.ok) {
+      if (response.type !== 'opaque' && !response.ok) {
         throw new Error(`Enquiry endpoint returned HTTP ${response.status}.`);
       }
 
       form.reset();
       setSubmitted(true);
+      setEmailDraft(emailFallbackUrl);
       setError('');
     } catch {
       setError(`The form could not be sent. Please email ${CONTACT_EMAIL} or call ${CONTACT_PHONE_DISPLAY}.`);
       setSubmitted(false);
-    };
+    }
   };
 
   return (
@@ -399,15 +384,15 @@ function LeadForm() {
       <div className="form-grid">
         <label>
           Full name
-          <input type="text" name="name" placeholder="Your full name" required />
+          <input type="text" name="name" maxLength="120" placeholder="Your full name" required />
         </label>
         <label>
           Email address
-          <input type="email" name="email" placeholder="you@example.com" required />
+          <input type="email" name="email" maxLength="254" placeholder="you@example.com" required />
         </label>
         <label>
           Phone number
-          <input type="tel" name="phone" placeholder="+91 63761 06457" required />
+          <input type="tel" name="phone" maxLength="40" placeholder="+91 63761 06457" required />
         </label>
         <label>
           Service of interest
@@ -426,13 +411,25 @@ function LeadForm() {
       </div>
       <label>
         What would you like support with?
-        <textarea name="message" rows="5" placeholder="Tell us a little about your wellness goals or concerns." required />
+        <textarea name="message" rows="5" maxLength="3000" placeholder="Tell us a little about what you are looking for. Please avoid sharing sensitive medical information in this form." required />
+      </label>
+      <label className="consent-label">
+        <input type="checkbox" name="consent" value="yes" required />
+        <span>I agree that ARGHYA may use the details I submit to respond to my enquiry and record it in a private leads spreadsheet. I will not include sensitive medical information.</span>
+      </label>
+      <label className="honeypot-field" aria-hidden="true">
+        Leave this field empty
+        <input type="text" name="website" tabIndex="-1" autoComplete="off" />
       </label>
       <div className="form-actions">
         <button type="submit" className="button button-primary">
           Send enquiry
         </button>
-        {submitted ? <p className="form-success" role="status">Thank you. Your enquiry has been received.</p> : null}
+        {submitted ? (
+          <p className="form-success" role="status">
+            Your enquiry was sent to the lead form endpoint, but this website cannot verify that Google added it to the sheet. If you do not hear back, <a href={emailDraft}>send a copy by email</a> or message us on WhatsApp.
+          </p>
+        ) : null}
         {error ? <p className="form-error" role="alert">{error}</p> : null}
         {emailDraft ? (
           <p className="form-status" role="status">
@@ -898,15 +895,15 @@ function WorkshopPage() {
 
 function ShopPage() {
   return (
-    <PageLayout title="Shop" intro="Thoughtful wellness resources and supportive tools for everyday practice." cta="Contact Aarohi">
+    <PageLayout title="Shop" intro="Explore the Chapter 01 guided reflection workbook from Healing Heaven." cta="Contact Aarohi">
       <section className="product-feature">
-        <div className="workbook-cover" aria-label="Illustrative design for The Home We Create, Chapter 01">
-          <span className="workbook-brand">{homeWeCreate.brand}</span>
-          <span className="workbook-seal" aria-hidden="true" />
-          <strong>{homeWeCreate.title}</strong>
-          <span>{homeWeCreate.chapter}</span>
-          <small>Created by {homeWeCreate.creator}</small>
-        </div>
+        <img
+          className="workbook-cover-image"
+          src={`${import.meta.env.BASE_URL}images/home-we-create-cover.jpg`}
+          alt="The Home We Create, A Conscious Parenthood Journey, Chapter 01: The Child We Once Were — Healing Heaven, Aarohi Kumari"
+          width="990"
+          height="1400"
+        />
         <div className="product-copy">
           <p className="section-label">{homeWeCreate.brand} · {homeWeCreate.type}</p>
           <h3>{homeWeCreate.title}<br /><span>A Conscious Parenthood Journey</span></h3>
@@ -918,18 +915,6 @@ function ShopPage() {
           <Link className="button button-secondary" to="/shop/the-home-we-create">Explore the workbook</Link>
         </div>
       </section>
-      <div className="shop-grid">
-        {shopItems.map((item) => (
-          <article key={item.name} className="shop-card">
-            <span>{item.price}</span>
-            <h4>{item.name}</h4>
-            <p>{item.blurb}</p>
-            <Link to="/contact" className="button button-secondary">
-              Enquire now
-            </Link>
-          </article>
-        ))}
-      </div>
     </PageLayout>
   );
 }
@@ -948,13 +933,13 @@ function HomeWeCreatePage() {
   return (
     <PageLayout title={homeWeCreate.title} intro="A Conscious Parenthood Journey · Chapter 01: The Child We Once Were">
       <section className="product-feature product-detail">
-        <div className="workbook-cover" aria-label="Illustrative design for The Home We Create, Chapter 01">
-          <span className="workbook-brand">{homeWeCreate.brand}</span>
-          <span className="workbook-seal" aria-hidden="true" />
-          <strong>{homeWeCreate.title}</strong>
-          <span>{homeWeCreate.chapter}</span>
-          <small>Created by {homeWeCreate.creator}</small>
-        </div>
+        <img
+          className="workbook-cover-image"
+          src={`${import.meta.env.BASE_URL}images/home-we-create-cover.jpg`}
+          alt="The Home We Create, A Conscious Parenthood Journey, Chapter 01: The Child We Once Were — Healing Heaven, Aarohi Kumari"
+          width="990"
+          height="1400"
+        />
         <div className="product-copy">
           <p className="section-label">{homeWeCreate.type}</p>
           <h3>Before we become someone&apos;s safe place, we gently meet the child within us.</h3>
@@ -964,8 +949,15 @@ function HomeWeCreatePage() {
           <p>It includes guided reflection questions, interactive exercises, individual activities and couple-based reflection exercises.</p>
           <p className="product-price">{homeWeCreate.price}</p>
           <p className="product-availability">Digital PDF workbook. Online checkout and instant delivery are not currently available on this website; please enquire to confirm purchase and delivery arrangements.</p>
-          <Link className="button button-primary" to="/contact?service=Digital%20Workbook">Enquire to Buy</Link>
-          <p className="product-availability">This button opens an enquiry form. Payment is not available on this website.</p>
+          <a
+            className="button button-primary"
+            href={whatsappEnquiryUrl(`Hi Aarohi, I would like to purchase The Home We Create — Chapter 01: The Child We Once Were (₹499). Please share the UPI payment details.`)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Pay via WhatsApp
+          </a>
+          <p className="product-availability">Payment is arranged directly over WhatsApp. Please confirm payment details with Aarohi before paying; this website does not process payments or automatically deliver the PDF.</p>
         </div>
       </section>
 
@@ -1268,8 +1260,8 @@ function App() {
                 title="Privacy Policy"
                 content={[
                   'Aarohi respects your privacy and is committed to handling personal information responsibly and transparently.',
-                  'Any information collected through the website or consultation form is used to respond to enquiries, provide wellness support and maintain communication related to your engagement with Aarohi.',
-                  'Your information will not be sold or shared with third parties unless required by law or explicitly authorised by you.',
+                  'If you submit the website enquiry form and consent, your name, email, phone number, selected service and message are stored in a private Google spreadsheet controlled by ARGHYA and used to respond to your enquiry. Google processes this information as the service provider. Do not include sensitive medical information in the form.',
+                  'Your enquiry information is not sold. Access to the spreadsheet should be limited to authorised ARGHYA account users. You may contact Aarohi to ask about your enquiry information.',
                 ]}
               />
             }
