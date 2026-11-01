@@ -427,7 +427,9 @@ function LeadForm() {
         </button>
         {submitted ? (
           <p className="form-success" role="status">
-            Your enquiry was sent to the lead form endpoint, but this website cannot verify that Google added it to the sheet. If you do not hear back, <a href={emailDraft}>send a copy by email</a> or message us on WhatsApp.
+            Your enquiry has been sent. If you don’t hear back within 24 hours, please reach out via{' '}
+            <a href={whatsappEnquiryUrl('Hi Aarohi, I submitted an enquiry and would like to follow up.')} target="_blank" rel="noreferrer">WhatsApp</a>
+            {' '}or <a href={emailDraft}>email</a>.
           </p>
         ) : null}
         {error ? <p className="form-error" role="alert">{error}</p> : null}
