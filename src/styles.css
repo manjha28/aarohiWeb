@@ -468,13 +468,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .value-card.large { padding: 30px 26px; }
 
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
 .testimonial-card {
-  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
   margin: 0;
-  padding: clamp(24px, 4vw, 42px);
+  padding: clamp(24px, 4vw, 36px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: #f1f2eb;
+}
+
+.testimonial-rating {
+  color: var(--gold);
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
 }
 
 .testimonial-card blockquote { margin: 0; }
@@ -491,15 +507,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-top: 24px;
+  margin-top: auto;
   color: var(--sage-deep);
   font-weight: 800;
-}
-
-.testimonial-card figcaption small {
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 400;
 }
 
 .value-card.large h3 {
@@ -1023,7 +1033,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .topbar, .section, .site-footer { width: min(100% - 20px, 100%); }
   .topbar { padding-top: 16px; }
   .brand-logo { width: 112px; height: 66px; }
-  .service-grid, .chapter-grid, .article-grid, .lifestyle-card-grid, .photo-story-grid, .footer-meta, .form-grid, .topic-list { grid-template-columns: 1fr; }
+  .service-grid, .chapter-grid, .article-grid, .lifestyle-card-grid, .photo-story-grid, .testimonial-grid, .footer-meta, .form-grid, .topic-list { grid-template-columns: 1fr; }
   .photo-story-card:last-child { grid-column: auto; }
   .hero-copy h2 { font-size: 2.8rem; }
   .about-image-wrap img, .hero-image-panel { height: 340px; }

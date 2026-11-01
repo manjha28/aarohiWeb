@@ -630,20 +630,46 @@ function HomePage() {
 
       <section className="section testimonials" aria-label="Participant experience">
         <SectionHeader
-          label="A participant’s experience"
-          title="A thoughtful step in their wellbeing journey."
+          label="Participant reviews"
+          title="Experiences shared after the sessions."
         />
-        <figure className="testimonial-card">
-          <blockquote>
-            <p>
-              “I joined the sessions in a hurry and wasn’t sure what to expect. Over time, the meditations helped me notice my thoughts, including fearful ones, and remember that a thought isn’t always a fact. I’ve felt more positive and have been keeping up with my walks, exercises and breathing practice. The sessions have become a meaningful part of my routine, and I’m grateful for the support.”
-            </p>
-          </blockquote>
-          <figcaption>
-            <span>Wellness-session participant</span>
-            <small>Shared anonymously and edited for clarity and length.</small>
-          </figcaption>
-        </figure>
+        <div className="testimonial-grid">
+          <figure className="testimonial-card">
+            <div className="testimonial-rating" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>
+              <p>
+                “Thank you so much for today’s session. It was amazing—I’m still reflecting on your words. You have such wonderful knowledge, ma’am. 🥰”
+              </p>
+            </blockquote>
+            <figcaption><span>Shalini</span></figcaption>
+          </figure>
+          <figure className="testimonial-card">
+            <div className="testimonial-rating" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>
+              <p>
+                “On the first day, I felt sleepy; on the second, I felt empty and tired. Today I could visualize what you guided us to imagine and notice my thoughts. I realized my fearful thoughts weren’t facts, and I felt some lightness. I think I could have taken more from it, but network issues interrupted.”
+              </p>
+            </blockquote>
+            <figcaption><span>Prachi</span></figcaption>
+          </figure>
+          <figure className="testimonial-card">
+            <div className="testimonial-rating" role="img" aria-label="4 out of 5 stars">★★★★☆</div>
+            <blockquote>
+              <p>
+                “I would like to continue with you. You’ve become an important part of our journey. I joined in a hurry and without much interest, but now I look forward to each session—it has become part of my routine. Thank you for your support.”
+              </p>
+            </blockquote>
+            <figcaption><span>Sulekha</span></figcaption>
+          </figure>
+          <figure className="testimonial-card">
+            <blockquote>
+              <p>
+                “The meditation session was very good. I’m feeling positive, and I’m continuing my exercises, walks and pranayama every day.”
+              </p>
+            </blockquote>
+            <figcaption><span>Salma</span></figcaption>
+          </figure>
+        </div>
       </section>
 
       <section className="section journal-preview">
