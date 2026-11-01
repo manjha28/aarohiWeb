@@ -434,7 +434,7 @@ function LeadForm() {
           </p>
         ) : null}
         {error ? <p className="form-error" role="alert">{error}</p> : null}
-        {emailDraft ? (
+        {!googleSheetsUrl && emailDraft ? (
           <p className="form-status" role="status">
             Online form delivery is not configured. <a href={emailDraft}>Open an email draft to send this enquiry</a>, then send it from your email app.
           </p>
