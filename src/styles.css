@@ -468,6 +468,40 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .value-card.large { padding: 30px 26px; }
 
+.testimonial-card {
+  max-width: 860px;
+  margin: 0;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: #f1f2eb;
+}
+
+.testimonial-card blockquote { margin: 0; }
+
+.testimonial-card blockquote p {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  line-height: 1.55;
+}
+
+.testimonial-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 24px;
+  color: var(--sage-deep);
+  font-weight: 800;
+}
+
+.testimonial-card figcaption small {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
 .value-card.large h3 {
   margin: 12px 0 14px;
   font-family: var(--serif);

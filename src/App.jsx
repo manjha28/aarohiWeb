@@ -628,6 +628,24 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="section testimonials" aria-label="Participant experience">
+        <SectionHeader
+          label="A participant’s experience"
+          title="A thoughtful step in their wellbeing journey."
+        />
+        <figure className="testimonial-card">
+          <blockquote>
+            <p>
+              “I joined the sessions in a hurry and wasn’t sure what to expect. Over time, the meditations helped me notice my thoughts, including fearful ones, and remember that a thought isn’t always a fact. I’ve felt more positive and have been keeping up with my walks, exercises and breathing practice. The sessions have become a meaningful part of my routine, and I’m grateful for the support.”
+            </p>
+          </blockquote>
+          <figcaption>
+            <span>Wellness-session participant</span>
+            <small>Shared anonymously and edited for clarity and length.</small>
+          </figcaption>
+        </figure>
+      </section>
+
       <section className="section journal-preview">
         <SectionHeader label="Journal" title="Gentle guidance for real life." />
         <div className="article-grid">
