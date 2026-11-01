@@ -299,6 +299,7 @@ function AppShell({ children }) {
           <Link to="/health-disclaimer">Health Disclaimer</Link>
         </div>
         <p className="footer-note">© {new Date().getFullYear()} ARGHYA. A Conscious Offering to Wellbeing.</p>
+        <p className="footer-credit">Website developed and managed by JHANEX Digital Services.</p>
       </footer>
 
       <a

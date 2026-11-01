@@ -703,7 +703,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   padding-top: 8px;
 }
 
-.footer-meta p, .footer-note, .footer-links a { margin: 0; color: var(--muted); }
+.footer-meta p, .footer-note, .footer-credit, .footer-links a { margin: 0; color: var(--muted); }
 
 .footer-meta span { color: var(--text); font-weight: 700; }
 
@@ -718,6 +718,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   padding-top: 10px;
   border-top: 1px solid var(--border);
 }
+
+.footer-credit { font-size: 0.9rem; }
 
 .mobile-menu-button {
   display: none;
